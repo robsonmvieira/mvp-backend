@@ -1,0 +1,12 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "dev",
+  "database": "mvpDatabase",
+  "sinchronize": true,
+  "migrations": ["./src/infra/data/migrations/*.ts"],
+  "cli": { "migrationsDir": "./src/infra/data/migrations" }
+}
+
