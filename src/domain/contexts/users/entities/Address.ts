@@ -4,10 +4,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
-  OneToMany} from "typeorm"
-import Product from "../../product/entities/Product";
+  OneToMany,
+  OneToOne,
+  ManyToOne} from "typeorm"
+import User from "./User";
 
-@Entity('adress')
+
+@Entity('addresses')
 export default class Address {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -33,9 +36,12 @@ export default class Address {
   @Column({ type: 'uuid'})
   woner: string
 
-  @CreateDateColumn('timestamp with time zone')
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn('timestamp with time zone')
+  @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne(() => User, user => user.adresses)
+  user: User
 }
