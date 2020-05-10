@@ -6,32 +6,34 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   OneToOne} from "typeorm"
-import Product from "../../product/entities/Product";
+
 import Address from "./Address";
+import Product from "@domain/contexts/product/entities/Product";
 
 @Entity('companies')
 export default class Company {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   name: string;
+
   @Column()
   cnpj: string;
 
   @Column()
   email: string;
 
-  @Column({ type: 'uuid'})
-  endereco_id: string
 
-  @CreateDateColumn('timestamp with time zone')
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn('timestamp with time zone')
+  @UpdateDateColumn()
   updated_at: Date;
 
   // @OneToMany(() => prod)
   products: Product[]
+
   // @OneToOne()
   address: Address
 }
