@@ -6,6 +6,7 @@
   "password": "dev",
   "database": "mvpDatabase",
   "sinchronize": true,
+  "entities": ["./src/domain/contexts/**/entities/*.ts"],
   "migrations": ["./src/infra/data/migrations/*.ts"],
   "cli": { "migrationsDir": "./src/infra/data/migrations" }
 }
