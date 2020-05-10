@@ -17,11 +17,10 @@ export default class Image {
   @Column({ type: 'uuid'})
   wonner_id: string;
 
-
-  @CreateDateColumn('timestamp with time zone')
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn('timestamp with time zone')
+  @UpdateDateColumn()
   updated_at: Date;
 
 
