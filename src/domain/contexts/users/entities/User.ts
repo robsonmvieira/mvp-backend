@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   OneToOne} from "typeorm"
-import Product from "../../product/entities/Product";
+
 import Address from "./Address";
 import Image from "./Image";
 
@@ -33,16 +33,15 @@ export default class User {
   @Column({ type: 'uuid'})
   endereco_id: string
 
-  @CreateDateColumn('timestamp with time zone')
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn('timestamp with time zone')
+  @UpdateDateColumn()
   updated_at: Date;
 
-  // @OneToMany(() => prod)
-  products: Product[];
 
-  // @OneToMany(() => prod)
+
+  @OneToMany(() => Address, addresses => addresses.user)
   adresses: Address[];
 
   @Column()
