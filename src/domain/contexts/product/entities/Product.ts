@@ -5,7 +5,8 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   ManyToOne} from "typeorm"
-import Company from "../../users/entities/Company";
+import Company from "@domain/contexts/users/entities/Company";
+
 
 @Entity('products')
 export default class Product {
@@ -28,10 +29,10 @@ export default class Product {
   company: Company
 
 
-  @CreateDateColumn('timestamp with time zone')
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn('timestamp with time zone')
+  @UpdateDateColumn()
   updated_at: Date;
 
 }
