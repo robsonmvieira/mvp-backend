@@ -2,18 +2,20 @@ import 'reflect-metadata'
 import express from "express";
 import "./infra/data"
 import "@infra/container"
+import productRoutes from '@domain/contexts/product/routes/productRoutes'
 import companyRoutes from '@domain/contexts/users/routes/companyRoutes'
 import addressRoutes from '@domain/contexts/users/routes/addressRoutes'
 import userRoutes from '@domain/contexts/users/routes/userRoutes'
-
 const app = express();
 
 
 app.use(express.json())
 
 app.use('/companies', companyRoutes)
+app.use('/products', productRoutes)
 app.use('/address', addressRoutes)
 app.use('/users', userRoutes)
+
 
 
 
