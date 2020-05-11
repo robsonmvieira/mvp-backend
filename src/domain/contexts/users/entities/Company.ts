@@ -24,6 +24,8 @@ export default class Company {
   @Column()
   email: string;
 
+  @Column()
+  address_id: string
 
   @CreateDateColumn()
   created_at: Date;
