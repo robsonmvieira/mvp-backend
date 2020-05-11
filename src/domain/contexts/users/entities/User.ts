@@ -31,7 +31,7 @@ export default class User {
   password: string
 
   @Column({ type: 'uuid'})
-  endereco_id: string
+  address_id: string
 
   @CreateDateColumn()
   created_at: Date;
@@ -41,11 +41,11 @@ export default class User {
 
 
 
-  @OneToMany(() => Address, addresses => addresses.user)
+  // @OneToMany(() => Address, addresses => addresses.user)
   adresses: Address[];
 
   @Column()
-  photo_id: string;
+  avatar_id: string;
 
   // @OneToOne()
   image: Image
