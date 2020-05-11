@@ -34,12 +34,6 @@ export class CreateCompanies1588963493534 implements MigrationInterface {
             isUnique: true
           },
           {
-            name: 'endereco',
-            type: 'varchar',
-            isNullable: false,
-            isUnique: true
-          },
-          {
             name: 'created_at',
             type: 'timestamp with time zone',
             isNullable: false,

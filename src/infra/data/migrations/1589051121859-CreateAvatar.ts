@@ -9,6 +9,7 @@ export class CreateAvatar1589051121859 implements MigrationInterface {
           {
             name: 'id',
             type: 'uuid',
+            isUnique: true,
             generationStrategy: 'uuid',
             default: 'uuid_generate_v4()'
           },

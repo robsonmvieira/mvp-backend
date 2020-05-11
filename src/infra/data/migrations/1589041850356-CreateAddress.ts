@@ -39,10 +39,6 @@ export class CreateAddress1589041850356 implements MigrationInterface {
               type: 'varchar'
             },
             {
-              name: 'wonner',
-              type: 'uuid'
-            },
-            {
               name: 'created_at',
               type: 'timestamp with time zone',
               isNullable: false,
@@ -64,18 +60,18 @@ export class CreateAddress1589041850356 implements MigrationInterface {
         //   referencedTableName: 'users',
         //   onDelete: 'CASCADE'
         // }))
-        await queryRunner.createForeignKey('addresses',
-        new TableForeignKey({
-          name: 'addressesCompany',
-          columnNames: ['id'],
-          referencedColumnNames: ['id'],
-          referencedTableName: 'companies',
-          onDelete: 'CASCADE'
-        }))
+        // await queryRunner.createForeignKey('addresses',
+        // new TableForeignKey({
+        //   name: 'addressesCompany',
+        //   columnNames: ['id'],
+        //   referencedColumnNames: ['id'],
+        //   referencedTableName: 'companies',
+        //   onDelete: 'CASCADE'
+        // }))
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.dropForeignKey('addresses', 'addressesCompany')
+      // await queryRunner.dropForeignKey('addresses', 'addressesCompany')
       // await queryRunner.dropForeignKey('addresses', 'addressesUser')
       await queryRunner.dropTable('addresses')
     }
