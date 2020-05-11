@@ -4,7 +4,7 @@ import { Repository, getRepository } from "typeorm";
 import ICompanyRepository from "@domain/contracts/ICompanyRepository";
 
 export default class CompanyRepository implements ICompanyRepository {
-  private readonly orm: Repository<Company>
+  private orm: Repository<Company>
   constructor() {
     this.orm = getRepository(Company)
   }
