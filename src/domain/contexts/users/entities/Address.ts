@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   OneToOne,
-  ManyToOne} from "typeorm"
-import User from "./User";
+  ManyToOne,
+  TableForeignKey} from "typeorm"
 
 
 @Entity('addresses')
@@ -33,15 +33,17 @@ export default class Address {
   @Column()
   zip_code: string;
 
-  @Column({ type: 'uuid'})
-  woner: string
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => User, user => user.adresses)
-  user: User
+  @Column({nullable: true})
+  user_id: string;
+
+  @Column({nullable: true})
+  company_id: string
+  // @ManyToOne(() => User, user => user.adresses)
+  // user: User
 }
