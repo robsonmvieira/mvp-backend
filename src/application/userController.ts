@@ -1,13 +1,14 @@
 import {Request, Response} from 'express'
 import { container } from 'tsyringe'
-import CreateAddressService from '@domain/services/address/CreateAddressService'
 import GetUsersServices from '@domain/services/user/GetUsersServices'
+import CreateUserService from '@domain/services/user/CreateUserService'
 
 export default class UserController {
 
   public async create(req:Request,res: Response ):Promise<Response> {
-    const service = container.resolve(CreateAddressService)
+    const service = container.resolve(CreateUserService)
     const result = await service.create(req.body)
+    delete result.password
     return res.status(201).json(result)
   }
 
