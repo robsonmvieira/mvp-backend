@@ -31,7 +31,7 @@ export default class CompanyRepository implements ICompanyRepository {
     const companyExists = await this.orm.findOne(id)
     if(companyExists) {
       await this.orm.update(id, company)
-      return companyExists
+      return company
     }
     return undefined
   }
