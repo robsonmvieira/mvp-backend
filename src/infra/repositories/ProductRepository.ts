@@ -23,11 +23,21 @@ export default class ProductRepository implements IProductRepository {
     const productExists = await this.orm.findOne(id)
     return productExists
   }
-  update(id: string, product: Product): Promise<Product | undefined> {
-    throw new Error("Method not implemented.");
+  async update(id: string, product: Product): Promise<Product | undefined> {
+    const productExists = await this.orm.findOne(id)
+    if(productExists) {
+      await this.orm.update(id, product)
+      return product
+    }
+    return undefined
   }
-  remove(id: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async remove(id: string): Promise<boolean> {
+    const productExists = await this.orm.findOne(id)
+    if (productExists) {
+      await this.orm.remove(productExists)
+      return true
+    }
+    return false
   }
 
   async getProductByTitle(title: string): Promise<Product | undefined> {
