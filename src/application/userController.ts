@@ -3,6 +3,9 @@ import { container } from 'tsyringe'
 import GetUsersServices from '@domain/services/user/GetUsersServices'
 import CreateUserService from '@domain/services/user/CreateUserService'
 import CreateAddressService from '@domain/services/address/CreateAddressService'
+import GetUserServices from '@domain/services/user/GetUserServices'
+import RemoveUserServices from '@domain/services/user/RemoveUserServices'
+import UpdateUserService from '@domain/services/user/UpdateUserService'
 
 export default class UserController {
 
@@ -40,20 +43,35 @@ export default class UserController {
 
 
   public async show(req:Request,res: Response ):Promise<Response> {
-    // const service = container.resolve(CreateCompanyService)
-    // const result = await service.create(req.body)
-    // return res.status(201).json(result)
+    const service = container.resolve(GetUserServices)
+    const {id} = req.params
+    const result = await service.exec(id)
+    if(result){
+      delete result.password
+       return res.status(201).json(result)
+     }
+     return res.status(400).json({error: 'product was not found'})
   }
 
-  public async update(req:Request,res: Response ):Promise<Response> {
-    // const service = container.resolve(CreateCompanyService)
-    // const result = await service.create(req.body)
-    // return res.status(201).json(result)
+  public async update(req:Request, res: Response ):Promise<Response> {
+    const service = container.resolve(UpdateUserService)
+    const {id} = req.params
+    const result = await service.exec(id, req.body)
+
+    if(result){
+      return res.status(201).json(result)
+    }
+    return res.status(400).json({error: 'user was not found'})
   }
 
   public async remove(req:Request,res: Response ):Promise<Response> {
-    // const service = container.resolve(CreateCompanyService)
-    // const result = await service.create(req.body)
-    // return res.status(201).json(result)
+    const service = container.resolve(RemoveUserServices)
+    const {id} = req.params
+    const result = await service.exec(id)
+    if(result){
+      return res.status(201).json(result)
+    }
+    return res.status(400).json({error: 'user was not found'})
   }
+
 }
