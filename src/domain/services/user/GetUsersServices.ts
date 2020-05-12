@@ -10,5 +10,4 @@ export default class GetUsersServices implements IGetUsersServices {
   async index(): Promise<User[]> {
     return await this.userRepo.index()
   }
-
 }
