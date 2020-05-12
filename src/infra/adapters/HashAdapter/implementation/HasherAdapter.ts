@@ -2,11 +2,13 @@ import { compare, hash } from 'bcryptjs'
 import IHasherAdapter from "../contract/IHasherAdapter";
 
 export default class HasherAdapter implements IHasherAdapter {
-  compare(planText: string, hashedPass: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async compare(planText: string, hashedPass: string): Promise<boolean> {
+    const passMatch = await compare(planText, hashedPass)
+    return passMatch
   }
-  encrypt(password: string): Promise<string> {
-    throw new Error("Method not implemented.");
+  async encrypt(password: string): Promise<string> {
+    const hashed = await hash(password, 8)
+    return hashed
   }
 
 }
