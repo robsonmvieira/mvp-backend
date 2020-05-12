@@ -36,11 +36,11 @@ export default class UserRepository implements IUserRepository {
    return undefined
   }
 
-  async update(id: string, user: User): Promise<User | undefined> {
+  async update(id: string, user: User): Promise<boolean | undefined> {
     const userExists = await this.orm.findOne(id)
     if(userExists) {
       await this.orm.update(id, user)
-      return user
+      return true
     }
     return undefined
   }
