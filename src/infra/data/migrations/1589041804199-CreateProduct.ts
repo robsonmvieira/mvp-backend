@@ -30,6 +30,10 @@ export class CreateProduct1589041804199 implements MigrationInterface {
               default: true,
             },
             {
+              name: 'company_id',
+              type: 'uuid'
+            },
+            {
               name: 'created_at',
               type: 'timestamp with time zone',
               isNullable: false,
@@ -47,7 +51,7 @@ export class CreateProduct1589041804199 implements MigrationInterface {
       await queryRunner.createForeignKey('products',
         new TableForeignKey({
           name: 'productCompany',
-          columnNames: ['id'],
+          columnNames: ['company_id'],
           referencedColumnNames: ['id'],
           referencedTableName: 'companies',
           onDelete: 'CASCADE'
