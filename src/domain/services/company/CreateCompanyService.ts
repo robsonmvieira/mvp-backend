@@ -3,6 +3,12 @@ import { injectable, inject } from "tsyringe";
 import CompanyRepository from "@infra/repositories/CompanyRepository";
 import ICreateCompanyService from "@domain/contexts/users/contracts/company/ICreateCompanyService";
 
+interface companyPost {
+  cnpj: string,
+	name: string;
+	email: string;
+	address_id: string
+}
 @injectable()
 export default class CreateCompanyService implements ICreateCompanyService {
   constructor(
@@ -10,7 +16,7 @@ export default class CreateCompanyService implements ICreateCompanyService {
 
   ) {
   }
-  async create(company: Company): Promise<Company> {
+  async create(company: companyPost): Promise<Company> {
     return this.companyRepository.create(company)
   }
 
