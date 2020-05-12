@@ -3,6 +3,15 @@ import { injectable, inject } from "tsyringe";
 import AddressRepository from "@infra/repositories/AddressRepository";
 import Address from "@domain/contexts/users/entities/Address";
 
+ interface addressPost {
+  country: string,
+  state: string,
+  city: string,
+  street: string,
+  number: string,
+  zip_code: string,
+
+ }
 @injectable()
 export default class CreateAddressService implements ICreateAddressService {
 
@@ -12,7 +21,7 @@ export default class CreateAddressService implements ICreateAddressService {
 
   }
 
-  async create(address: Address): Promise<Address>  {
+  async create(address: addressPost): Promise<Address>  {
     const result = await this.addRepository.create(address)
     return result
   }
