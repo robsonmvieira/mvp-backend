@@ -2,6 +2,18 @@ import { Repository, getRepository } from "typeorm";
 import Address from "domain/contexts/users/entities/Address";
 import IAddressRepository from "@domain/contracts/IAddressRepository";
 
+interface addressPost {
+  country: string,
+  state: string,
+  city: string,
+  street: string,
+  number: string,
+  zip_code: string,
+  user_id?: string;
+  company_id?: string;
+  // created_at?: Date,
+  // updated_at?:Date
+ }
 export default class AddressRepository implements IAddressRepository {
   private readonly orm: Repository<Address>
 
@@ -9,7 +21,7 @@ export default class AddressRepository implements IAddressRepository {
     this.orm = getRepository(Address)
   }
 
-  async create(address: Address): Promise<Address> {
+  async create(address: addressPost): Promise<Address> {
     const result = await this.orm.save(address)
     return result
   }
