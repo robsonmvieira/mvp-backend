@@ -3,6 +3,9 @@ import { container } from 'tsyringe'
 import CreateCompanyService from '@domain/services/company/CreateCompanyService'
 import GetCompaniesService from '@domain/services/company/GetCompaniesService'
 import CreateAddressService from '@domain/services/address/CreateAddressService'
+import UpdateCompanyService from '@domain/services/company/UpdateCompanyService'
+import GetCompanyService from '@domain/services/company/GetCompanyService'
+import RemoveCompanyService from '@domain/services/company/RemoveCompanyService'
 
 export default class CompanyController {
 
@@ -39,20 +42,38 @@ export default class CompanyController {
 
 
   public async show(req:Request,res: Response ):Promise<Response> {
-    // const service = container.resolve(CreateCompanyService)
-    // const result = await service.create(req.body)
-    // return res.status(201).json(result)
+    const service = container.resolve(GetCompanyService)
+    const {id} = req.params
+    const result = await service.exec(id)
+
+     if(result){
+       return res.status(201).json(result)
+     }
+     return res.status(400).json({error: 'product was not found'})
   }
 
   public async update(req:Request,res: Response ):Promise<Response> {
-    // const service = container.resolve(CreateCompanyService)
-    // const result = await service.create(req.body)
-    // return res.status(201).json(result)
+    const service = container.resolve(UpdateCompanyService)
+    const {id} = req.params
+    if(id == undefined) {
+      return res.status(400).json({ error: 'company was not found'})
+    }
+    const result = await service.exec(id, req.body)
+    if(result) {
+      return res.status(201).json(result)
+    }
+    return res.status(400).json({ error: 'somehting went wrong'})
+
   }
 
   public async remove(req:Request,res: Response ):Promise<Response> {
-    // const service = container.resolve(CreateCompanyService)
-    // const result = await service.create(req.body)
-    // return res.status(201).json(result)
+    const service = container.resolve(RemoveCompanyService)
+    const {id} = req.params
+    const result = await service.exec(id)
+
+     if(result){
+       return res.status(201).json(result)
+     }
+     return res.status(400).json(false)
   }
 }
