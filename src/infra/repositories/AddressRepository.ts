@@ -30,14 +30,27 @@ export default class AddressRepository implements IAddressRepository {
    return this.orm.find()
   }
 
-  show(id: string): Promise<Address | undefined> {
-    throw new Error("Method not implemented.");
+  async show(id: string): Promise<Address | undefined> {
+    const addressExists = await this.orm.findOne(id)
+    return addressExists
   }
-  update(id: string, address: Address): Promise<Address | undefined> {
-    throw new Error("Method not implemented.");
+
+  async update(id: string, address: Address): Promise<boolean | undefined> {
+    const addressExists = await this.orm.findOne(id)
+    if(addressExists) {
+      await this.orm.update(id, address)
+      return true
+    }
+    return undefined
   }
-  remove(id: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+
+  async remove(id: string): Promise<boolean> {
+    const addressExists = await this.orm.findOne(id)
+    if (addressExists) {
+      await this.orm.remove(addressExists)
+      return true
+    }
+    return false
   }
 
 }
