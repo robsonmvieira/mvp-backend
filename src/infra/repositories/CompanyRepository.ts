@@ -3,12 +3,18 @@ import { Repository, getRepository } from "typeorm";
 
 import ICompanyRepository from "@domain/contracts/ICompanyRepository";
 
+interface companyPost {
+  cnpj: string,
+	name: string;
+	email: string;
+	address_id: string
+}
 export default class CompanyRepository implements ICompanyRepository {
   private orm: Repository<Company>
   constructor() {
     this.orm = getRepository(Company)
   }
-  async create(company: Company): Promise<Company> {
+  async create(company: companyPost): Promise<Company> {
     const newCompany = await this.orm.save(company)
     return newCompany
   }
