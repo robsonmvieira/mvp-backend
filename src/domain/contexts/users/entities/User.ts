@@ -44,7 +44,7 @@ export default class User {
   // @OneToMany(() => Address, addresses => addresses.user)
   adresses: Address[];
 
-  @Column()
+  @Column({nullable: true})
   avatar_id: string;
 
   // @OneToOne()
