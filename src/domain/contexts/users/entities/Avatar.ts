@@ -1,7 +1,7 @@
-import { PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from "typeorm";
 
-@Entity('images')
-export default class Image {
+@Entity('avatar')
+export default class Avatar {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -14,15 +14,9 @@ export default class Image {
   @Column()
   type: string;
 
-  @Column({ type: 'uuid'})
-  wonner_id: string;
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
-
-
-
 }
