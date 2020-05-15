@@ -4,6 +4,6 @@ export default interface IUserRepository {
   create(user: User): Promise<User>
   index():Promise<User[]>
   show(id: string): Promise<User | undefined>
-  update(id: string, user: User): Promise<User | undefined>
+  update(id: string, user: User): Promise<boolean | undefined>
   remove(id: string): Promise<boolean>
 }
