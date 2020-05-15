@@ -7,6 +7,7 @@ import GetProductByCompanyService from '@domain/contexts/product/services/GetPro
 import UpdateProductService from '@domain/contexts/product/services/UpdateProductService'
 import GetProductByIdService from '@domain/contexts/product/services/GetProductByIdService'
 import RemoveProductService from '@domain/contexts/product/services/RemoveProductService'
+import CreateImage from '@domain/contexts/product/services/images/ICreateImageService'
 
 export default class ProductController {
 
@@ -73,6 +74,23 @@ export default class ProductController {
       return res.status(200).json(productExists)
     }
     return res.status(400).json({message: 'product was not found'})
+  }
+
+  public async updateImage(req: Request, res: Response): Promise<Response>{
+    const productService = container.resolve(UpdateProductService)
+    const avatarService = container.resolve(CreateImage)
+    const { originalname, mimetype,filename } = req.file
+    const {id} = req.params
+    const newImage = {
+      original_name: originalname,
+      name_saved: filename,
+      type: mimetype,
+      // wonner: id
+    }
+    const createdImage = await avatarService.exec(newImage)
+    await productService.exec(id, {id, image_id: createdImage.id })
+
+    return res.status(200).json(createdImage)
   }
 
 }
