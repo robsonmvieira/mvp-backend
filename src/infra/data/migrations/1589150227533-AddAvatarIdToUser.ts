@@ -11,7 +11,6 @@ export class AddAvatarIdToUser1589150227533 implements MigrationInterface {
           referencedTableName: 'avatar',
           onDelete: 'CASCADE'
         })
-
       )
     }
 

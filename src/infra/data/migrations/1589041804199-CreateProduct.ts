@@ -34,6 +34,11 @@ export class CreateProduct1589041804199 implements MigrationInterface {
               type: 'uuid'
             },
             {
+              name: 'image_id',
+              type: 'uuid',
+              isNullable: true
+            },
+            {
               name: 'created_at',
               type: 'timestamp with time zone',
               isNullable: false,

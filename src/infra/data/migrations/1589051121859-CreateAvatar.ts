@@ -25,10 +25,10 @@ export class CreateAvatar1589051121859 implements MigrationInterface {
             name: 'type',
             type: 'varchar',
           },
-          {
-            name: 'wonner',
-            type: 'uuid'
-          },
+          // {
+          //   name: 'wonner',
+          //   type: 'uuid'
+          // },
           {
             name: 'created_at',
             type: 'timestamp with time zone',
@@ -44,22 +44,22 @@ export class CreateAvatar1589051121859 implements MigrationInterface {
         ]
       })
     )
-    await queryRunner.createForeignKey('users',
-      new TableForeignKey(
-       {
-        name: 'userAvatar',
-        columnNames:['id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'users',
-        onDelete: 'CASCADE'
-       }
+    // await queryRunner.createForeignKey('users',
+    //   new TableForeignKey(
+    //    {
+    //     name: 'userAvatar',
+    //     columnNames:['id'],
+    //     referencedColumnNames: ['id'],
+    //     referencedTableName: 'users',
+    //     onDelete: 'CASCADE'
+    //    }
 
-      )
-    )
+    //   )
+    // )
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('users', 'userAvatar')
+    // await queryRunner.dropForeignKey('users', 'userAvatar')
     await queryRunner.dropTable('avatar')
   }
 

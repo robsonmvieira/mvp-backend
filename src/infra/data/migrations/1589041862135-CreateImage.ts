@@ -26,10 +26,6 @@ export class CreateImage1589041862135 implements MigrationInterface {
               type: 'varchar',
             },
             {
-              name: 'wonner',
-              type: 'uuid'
-            },
-            {
               name: 'created_at',
               type: 'timestamp with time zone',
               isNullable: false,
@@ -44,14 +40,14 @@ export class CreateImage1589041862135 implements MigrationInterface {
           ]
         })
       )
-      await queryRunner.createForeignKey('images',
-      new TableForeignKey({
-        name: 'imageProduct',
-        columnNames: ['id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'products',
-        onDelete: 'CASCADE'
-      }))
+      // await queryRunner.createForeignKey('images',
+      // new TableForeignKey({
+      //   name: 'imageProduct',
+      //   columnNames: ['id'],
+      //   referencedColumnNames: ['id'],
+      //   referencedTableName: 'products',
+      //   onDelete: 'CASCADE'
+      // }))
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
