@@ -20,8 +20,20 @@ export default class ProductRepository implements IProductRepository {
   }
 
   async show(id: string): Promise<Product | undefined> {
-    const productExists = await this.orm.findOne(id)
-    return productExists
+    // const productExists = await this.orm.findOne(id)
+    // return productExists
+    const product = await this.orm.createQueryBuilder("product").select([
+      "user.id",
+      "user.title",
+      "user.price",
+    ]).addSelect("image.id")
+    .leftJoinAndSelect("user.image", "image")
+    .getOne()
+
+    if(product) {
+      return product
+    }
+    return undefined
   }
   async update(id: string, product: Product): Promise<Product | undefined> {
     const productExists = await this.orm.findOne(id)
