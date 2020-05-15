@@ -4,8 +4,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
-  ManyToOne} from "typeorm"
+  ManyToOne,
+  JoinColumn,
+  OneToOne} from "typeorm"
 import Company from "@domain/contexts/users/entities/Company";
+import Image from "./Image";
 
 
 @Entity('products')
@@ -25,9 +28,16 @@ export default class Product {
   @Column({ type: 'boolean', default: true })
   available: boolean;
 
-  // @ManyToOne()
+  @ManyToOne(() => Company)
+  @JoinColumn({name: 'company_id'})
   company: Company
 
+  @Column()
+  image_id: string
+
+
+  @OneToOne(()=> Image)
+  @JoinColumn({name: 'image_id'})
 
   @CreateDateColumn()
   created_at: Date;
