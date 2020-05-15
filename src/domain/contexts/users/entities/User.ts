@@ -5,10 +5,12 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   OneToMany,
-  OneToOne} from "typeorm"
+  OneToOne,
+  JoinColumn} from "typeorm"
 
 import Address from "./Address";
-import Image from "./Image";
+import Image from "../../product/entities/Image";
+import Avatar from "./Avatar";
 
 @Entity('users')
 export default class User {
@@ -42,13 +44,14 @@ export default class User {
 
 
   // @OneToMany(() => Address, addresses => addresses.user)
-  adresses: Address[];
+  addresses: Address[];
 
   @Column({nullable: true})
   avatar_id: string;
 
-  // @OneToOne()
-  image: Image
 
+  @OneToOne(type => Avatar)
+  @JoinColumn({name:'avatar_id'})
+  avatar: Avatar
 }
 
