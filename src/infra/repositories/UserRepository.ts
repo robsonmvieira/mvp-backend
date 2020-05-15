@@ -29,11 +29,23 @@ export default class UserRepository implements IUserRepository {
   }
 
   async show(id: string): Promise<User | undefined> {
-   const userExists = await this.orm.findOne(id)
-   if(userExists) {
-     return userExists
-   }
-   return undefined
+  //  const userExists = await this.orm.findOne(id, {relations: ['avatar']})
+  //  if(userExists) {
+  //    return userExists
+  //  }
+  //  return undefined
+  const user = await this.orm.createQueryBuilder("user").select([
+    "user.id",
+    "user.name",
+    "user.email",
+  ]).addSelect("avatar.id")
+  .leftJoinAndSelect("user.avatar", "avatar")
+  .getOne()
+
+  if(user) {
+    return user
+  }
+  return undefined
   }
 
   async update(id: string, user: User): Promise<boolean | undefined> {
