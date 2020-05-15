@@ -6,6 +6,8 @@ import CreateAddressService from '@domain/services/address/CreateAddressService'
 import GetUserServices from '@domain/services/user/GetUserServices'
 import RemoveUserServices from '@domain/services/user/RemoveUserServices'
 import UpdateUserService from '@domain/services/user/UpdateUserService'
+import CreateAvatar from '@domain/services/avatar/CreateAvatar'
+import User from '@domain/contexts/users/entities/User'
 
 export default class UserController {
 
@@ -50,7 +52,7 @@ export default class UserController {
       delete result.password
        return res.status(201).json(result)
      }
-     return res.status(400).json({error: 'product was not found'})
+     return res.status(400).json({error: 'user was not found'})
   }
 
   public async update(req:Request, res: Response ):Promise<Response> {
@@ -74,4 +76,20 @@ export default class UserController {
     return res.status(400).json({error: 'user was not found'})
   }
 
+  public async updateImage(req:Request,res: Response ):Promise<Response>{
+    const userService = container.resolve(UpdateUserService)
+    const avatarService = container.resolve(CreateAvatar)
+    const { originalname, mimetype,filename } = req.file
+    const {id} = req.params
+    const newAvatar = {
+      original_name: originalname,
+      name_saved: filename,
+      type: mimetype,
+      // wonner: id
+    }
+    const createdAvatar = await avatarService.exec(newAvatar)
+    await userService.exec(id, {id, avatar_id: createdAvatar.id })
+
+    return res.status(200).json(createdAvatar)
+  }
 }
