@@ -8,8 +8,7 @@ interface userPost {
   email: string;
   phone_number: string;
   password: string;
-  address_id: string;
- }
+}
 
 export default class UserRepository implements IUserRepository {
   private readonly orm: Repository<User>
@@ -29,17 +28,12 @@ export default class UserRepository implements IUserRepository {
   }
 
   async show(id: string): Promise<User | undefined> {
-  //  const userExists = await this.orm.findOne(id, {relations: ['avatar']})
-  //  if(userExists) {
-  //    return userExists
-  //  }
-  //  return undefined
-  const user = await this.orm.createQueryBuilder("user").select([
-    "user.id",
-    "user.name",
-    "user.email",
-  ]).addSelect("avatar.id")
-  .leftJoinAndSelect("user.avatar", "avatar")
+  const user = await this.orm.createQueryBuilder('user').where({id})
+  .select(['user.id','user.name', 'user.email'])
+  .leftJoin('user.addresses', 'add')
+  .addSelect(['add.street', 'add.city'])
+  .leftJoin('user.avatar', 'avatar')
+  .addSelect('avatar.name_saved')
   .getOne()
 
   if(user) {
@@ -49,7 +43,7 @@ export default class UserRepository implements IUserRepository {
   }
 
   async update(id: string, user: User): Promise<boolean | undefined> {
-    const userExists = await this.orm.findOne(id)
+    let userExists = await this.orm.findOne(id)
     if(userExists) {
       await this.orm.update(id, user)
       return true
