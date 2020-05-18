@@ -7,7 +7,9 @@ import {
   OneToMany,
   OneToOne,
   ManyToOne,
-  TableForeignKey} from "typeorm"
+  TableForeignKey,
+  JoinColumn} from "typeorm"
+import User from "./User";
 
 
 @Entity('addresses')
@@ -39,11 +41,17 @@ export default class Address {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'uuid'})
   user_id: string;
 
-  @Column({nullable: true})
+  @Column({nullable: true, type: 'uuid'})
   company_id: string
-  // @ManyToOne(() => User, user => user.adresses)
-  // user: User
+
+
+  @JoinColumn({name: 'user_id'})
+  @ManyToOne(
+    () => User,
+    user => user.addresses,
+    {cascade: ['insert', 'update']})
+  user: User
 }
