@@ -9,7 +9,6 @@ import {
   JoinColumn} from "typeorm"
 
 import Address from "./Address";
-import Image from "../../product/entities/Image";
 import Avatar from "./Avatar";
 
 @Entity('users')
@@ -32,18 +31,16 @@ export default class User {
   @Column()
   password: string
 
-  @Column({ type: 'uuid'})
-  address_id: string
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 
-
-
-  // @OneToMany(() => Address, addresses => addresses.user)
+  @OneToMany(
+    () => Address,
+    addresses => addresses.user,
+    { eager: true, cascade: ['insert', 'update', 'remove']} )
   addresses: Address[];
 
   @Column({nullable: true})
