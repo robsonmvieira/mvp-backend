@@ -15,10 +15,6 @@ import Image from "./Image";
 export default class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ type: 'uuid' })
-  company_id: string;
-
   @Column()
   title: string;
 
@@ -28,16 +24,20 @@ export default class Product {
   @Column({ type: 'boolean', default: true })
   available: boolean;
 
+  @Column({ type: 'uuid' })
+  company_id: string;
+
+  @Column({ type: 'uuid' })
+  image_id: string
+
+
   @ManyToOne(() => Company)
   @JoinColumn({name: 'company_id'})
   company: Company
 
-  @Column()
-  image_id: string
-
-
   @OneToOne(()=> Image)
   @JoinColumn({name: 'image_id'})
+  image: Image
 
   @CreateDateColumn()
   created_at: Date;
