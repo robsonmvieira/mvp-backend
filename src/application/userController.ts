@@ -7,7 +7,6 @@ import GetUserServices from '@domain/services/user/GetUserServices'
 import RemoveUserServices from '@domain/services/user/RemoveUserServices'
 import UpdateUserService from '@domain/services/user/UpdateUserService'
 import CreateAvatar from '@domain/services/avatar/CreateAvatar'
-import User from '@domain/contexts/users/entities/User'
 
 export default class UserController {
 
@@ -17,24 +16,35 @@ export default class UserController {
 
     const {country, state, city, street, number, zip_code } = req.body
 
-    const newAddress = { country, state, city, street, number, zip_code }
 
     const {name, cpf, email, phone_number, password } = req.body
 
-    const createdAddress = await addService.create(newAddress)
 
     const newUser = {
       name,
       cpf,
       email,
       phone_number,
-      password,
-      address_id: createdAddress.id
-    }
+      password
 
+    }
     const result = await userService.create(newUser)
+
+    const newAddress = {
+      country,
+      state,
+      city,
+      street,
+      number,
+      zip_code,
+      user_id:  result.id }
+
+    const createdAddress = await addService.create(newAddress)
+
     delete result.password
+
     return res.status(201).json(result)
+
   }
 
   public async index(req:Request,res: Response ):Promise<Response> {
