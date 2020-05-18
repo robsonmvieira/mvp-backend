@@ -10,8 +10,8 @@ import HasherAdapter from "@infra/adapters/HashAdapter/implementation/HasherAdap
   email: string;
   phone_number: string;
   password: string;
-  address_id: string;
  }
+
 @injectable()
 export default class CreateUserService implements ICreateUserService {
 
