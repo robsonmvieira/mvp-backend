@@ -5,7 +5,8 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   OneToMany,
-  OneToOne} from "typeorm"
+  OneToOne,
+  JoinColumn} from "typeorm"
 
 import Address from "./Address";
 import Product from "@domain/contexts/product/entities/Product";
@@ -24,7 +25,7 @@ export default class Company {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ type:'uuid'})
   address_id: string
 
   @CreateDateColumn()
@@ -33,9 +34,13 @@ export default class Company {
   @UpdateDateColumn()
   updated_at: Date;
 
-  // @OneToMany(() => prod)
+  @OneToMany(
+    () => Product, products => products.company,
+    {eager: true})
   products: Product[]
 
   // @OneToOne()
+  @OneToOne(() => Address)
+  @JoinColumn({name: 'address_id' })
   address: Address
 }
