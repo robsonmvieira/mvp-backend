@@ -23,7 +23,24 @@ export default class UserRepository implements IUserRepository {
   }
 
   async index(): Promise<User[]> {
-    const users = await this.orm.find()
+    const users = await this.orm.createQueryBuilder('user')
+    .select([
+      'user.id',
+      'user.name',
+      'user.cpf',
+      'user.phone_number',
+      'user.email'
+    ])
+    .leftJoin('user.addresses', 'add')
+    .addSelect([
+      'add.id',
+      'add.city', 'add.country',
+      'add.street',
+      'add.state',
+      'add.number'])
+    .leftJoin('user.avatar', 'av')
+    .addSelect(['av.name_saved'])
+    .getMany()
     return users
   }
 
