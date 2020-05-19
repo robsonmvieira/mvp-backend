@@ -15,6 +15,7 @@ import Image from "./Image";
 export default class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   title: string;
 
@@ -31,7 +32,7 @@ export default class Product {
   image_id: string
 
 
-  @ManyToOne(() => Company)
+  @ManyToOne(() => Company, company => company.products)
   @JoinColumn({name: 'company_id'})
   company: Company
 
