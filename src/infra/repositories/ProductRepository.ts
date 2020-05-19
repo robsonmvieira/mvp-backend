@@ -15,19 +15,24 @@ export default class ProductRepository implements IProductRepository {
   }
 
   async index(): Promise<Product[]> {
-    const result = await this.orm.find()
+    const result = await this.orm.createQueryBuilder('product')
+    .select(['product.id', 'product.title', 'product.price'])
+    .leftJoin('product.company', 'cmp')
+    .addSelect('cmp.name')
+    .leftJoin('product.image', 'img')
+    .addSelect(['img.name_saved'])
+    .getMany()
     return result
   }
 
   async show(id: string): Promise<Product | undefined> {
-    // const productExists = await this.orm.findOne(id)
-    // return productExists
-    const product = await this.orm.createQueryBuilder("product").select([
-      "user.id",
-      "user.title",
-      "user.price",
-    ]).addSelect("image.id")
-    .leftJoinAndSelect("user.image", "image")
+    const product = await this.orm.createQueryBuilder("product")
+    .select(['product.id', 'product.title', 'product.price'])
+    .where({ id })
+    .leftJoin("product.image", "image")
+    .addSelect(["image.name_saved", 'image.id'])
+    .leftJoin("product.company", "company")
+    .addSelect(['company.name'])
     .getOne()
 
     if(product) {
@@ -53,11 +58,33 @@ export default class ProductRepository implements IProductRepository {
   }
 
   async getProductByTitle(title: string): Promise<Product | undefined> {
-    const result = await this.orm.findOne({where: {title}})
-    return result
+    const product = await this.orm.createQueryBuilder("product")
+    .select(['product.id', 'product.title', 'product.price'])
+    .where({ title })
+    .leftJoin("product.image", "image")
+    .addSelect(["image.name_saved", 'image.id'])
+    .leftJoin("product.company", "company")
+    .addSelect(['company.name'])
+    .getOne()
+
+    if(product) {
+      return product
+    }
+    return undefined
   }
   async getProductByCompany(id: string): Promise<Product[] | undefined> {
-    const result = await this.orm.find({where: {company_id: id}})
-    return result
+    const product = await this.orm.createQueryBuilder("product")
+    .select(['product.id', 'product.title', 'product.price'])
+    .where({ company_id: id })
+    .leftJoin("product.image", "image")
+    .addSelect(["image.name_saved", 'image.id'])
+    .leftJoin("product.company", "company")
+    .addSelect(['company.name'])
+    .getMany()
+
+    if(product) {
+      return product
+    }
+    return undefined
   }
 }
