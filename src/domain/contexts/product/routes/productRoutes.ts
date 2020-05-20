@@ -6,7 +6,7 @@ const productController = new ProductController()
 const routes = Router()
 const upload = multer(uploadConfig)
 
-routes.post('/', productController.create)
+routes.post('/', upload.single('image'), productController.create)
 routes.get('/', productController.index)
 routes.get('/:id', productController.show)
 routes.put('/:id', productController.update)
