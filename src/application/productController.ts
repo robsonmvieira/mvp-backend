@@ -13,8 +13,27 @@ export default class ProductController {
 
   public async create(req:Request,res: Response ):Promise<Response> {
     const service = container.resolve(CreateProductService)
-    const result = await service.create(req.body)
-    return res.status(201).json(result)
+    const imageService = container.resolve(CreateImage)
+
+    const { originalname, mimetype,filename } = req.file
+    const newImage = {
+      original_name: originalname,
+      name_saved: filename,
+      type: mimetype,
+    }
+
+    const createdImage = await imageService.exec(newImage)
+
+    const { title, company_id, price, available } = req.body
+    const productDto = {
+      title,
+      company_id,
+      price,
+      available,
+      image_id: createdImage.id
+    }
+    const createdProduct = await service.create(productDto)
+    return res.status(201).json(createdProduct)
   }
 
   public async index(req:Request,res: Response ):Promise<Response> {
@@ -78,19 +97,29 @@ export default class ProductController {
 
   public async updateImage(req: Request, res: Response): Promise<Response>{
     const productService = container.resolve(UpdateProductService)
-    const avatarService = container.resolve(CreateImage)
-    const { originalname, mimetype,filename } = req.file
+    const imageService = container.resolve(CreateImage)
     const {id} = req.params
+    const { originalname, mimetype,filename } = req.file
     const newImage = {
       original_name: originalname,
       name_saved: filename,
       type: mimetype,
-      // wonner: id
     }
-    const createdImage = await avatarService.exec(newImage)
+
+    const createdImage = await imageService.exec(newImage)
+
     await productService.exec(id, {id, image_id: createdImage.id })
 
     return res.status(200).json(createdImage)
   }
 
+  private createImageFactory(request: Request): object {
+    const { originalname, mimetype,filename } = request.file
+    const newImage = {
+      original_name: originalname,
+      name_saved: filename,
+      type: mimetype,
+    }
+    return newImage
+  }
 }
